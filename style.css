@@ -1,32 +1,143 @@
-/* style.css */
+/* style.css - DayZ Survival TheME */
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #0f0f0f;
-  color: #e0e0e0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #151e13 url('https://i.imgur.com/lc2MZtH.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #c1c7b7;
+  text-shadow: 0 1px 3px #000;
   text-align: center;
   padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
 .container {
-  max-width: 400px;
+  max-width: 420px;
   margin: auto;
-  background: #1f1f1f;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 0 20px #333;
+  background: rgba(29, 38, 23, 0.90);
+  padding: 2.2rem 2rem 2rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 32px #101a0f, 0 2px 0 #3b4726 inset;
+  border: 2px solid #4a5c36;
+  position: relative;
+}
+
+h1, h2, h3 {
+  color: #d7f71b;
+  font-family: 'Impact', 'Arial Black', Arial, sans-serif;
+  letter-spacing: 2px;
+  margin-bottom: 0.6em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px #000, 0 0 4px #586a3a;
+}
+
+label {
+  color: #b6d49b;
+  font-weight: bold;
+  text-shadow: 0 1px 4px #000;
 }
 
 input, select, button {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-top: 0.5rem;
+  margin-bottom: 1rem;
   border-radius: 5px;
-  border: none;
+  border: 1.5px solid #3b4726;
+  background: #222c1b;
+  color: #eaf2d7;
+  font-size: 1rem;
+  box-sizing: border-box;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: #d7f71b;
+  background: #29351f;
+}
+
+select {
+  background: #222c1b url('data:image/svg+xml;utf8,<svg fill="lime" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M6 8L0 0h12z"/></svg>') no-repeat right 10px center/12px 8px;
+  appearance: none;
 }
 
 button {
-  background-color: #2a9d8f;
-  color: white;
+  background: linear-gradient(90deg, #799a4a 0%, #d7f71b 100%);
+  color: #1a200f;
   font-weight: bold;
+  text-shadow: 0 1px 2px #b6d49b;
+  border: 2px solid #3f4d23;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 0 #b6d49b inset;
   cursor: pointer;
+  letter-spacing: 1px;
+}
+
+button:hover, button:active {
+  background: linear-gradient(90deg, #d7f71b 0%, #799a4a 100%);
+  color: #222c1b;
+  box-shadow: 0 0 8px #d7f71b, 0 2px 0 #b6d49b inset;
+}
+
+ul {
+  background: rgba(34, 44, 27, 0.95);
+  border-radius: 8px;
+  border: 1px solid #3b4726;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
+  list-style: none;
+  color: #eaf2d7;
+  text-align: left;
+  font-size: 1.02em;
+}
+
+li {
+  border-bottom: 1px dashed #4a5c36;
+  padding: 0.3em 0;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+#chatMessages {
+  height: 160px;
+  overflow-y: auto;
+  background: #1d2617;
+  border: 1.5px solid #4a5c36;
+  border-radius: 7px;
+  padding: 8px;
+  color: #d7f71b;
+  font-family: 'Consolas', monospace;
+  font-size: 0.98em;
+}
+
+#teamLobby {
+  margin-top: 2rem;
+  background: rgba(29, 38, 23, 0.97);
+  border-radius: 12px;
+  border: 2px solid #4a5c36;
+  box-shadow: 0 1px 8px #242c1a;
+  padding: 1.6em 1em 1em 1em;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #252e1c;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #4a5c36;
+  border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    max-width: 98vw;
+    padding: 1rem;
+  }
+  #teamLobby {
+    padding: 0.4em;
+  }
 }
