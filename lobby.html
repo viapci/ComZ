@@ -1,4 +1,3 @@
-<!-- lobby.html - DayZ Survival Theme with Fading Slideshow -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,6 +31,9 @@
       <label>Max Team Size:</label>
       <input type="number" id="teamSize" min="2" max="5" value="2" />
 
+      <label for="teamPasscode">Passcode (optional):</label>
+      <input type="text" id="teamPasscode" placeholder="Team passcode (optional)" />
+
       <button id="createTeam">Create</button>
 
       <h2>Join a Team</h2>
@@ -45,8 +47,10 @@
 
       <h3>Team Chat</h3>
       <ul id="chatMessages"></ul>
-      <input type="text" id="chatInput" placeholder="Type message..." />
+      <input type="text" id="chatInput" placeholder="Type message..." autocomplete="off" />
       <button id="sendChat">Send</button>
+      <br>
+      <button id="leaveTeam" style="margin-top:1em;background:#b54d4d;color:#fff;">Back to Lobby</button>
     </div>
   </div>
 
