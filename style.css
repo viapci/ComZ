@@ -1,17 +1,44 @@
-/* style.css - DayZ Survival TheME */
+/* style.css - DayZ Survival Theme with Slideshow */
 
 body {
   font-family: 'Segoe UI', Arial, sans-serif;
-  background: #151e13 url('https://i.imgur.com/lc2MZtH.jpg') no-repeat center center fixed;
-  background-size: cover;
+  background: #151e13;
   color: #c1c7b7;
   text-shadow: 0 1px 3px #000;
   text-align: center;
   padding: 2rem;
   min-height: 100vh;
   box-sizing: border-box;
+  margin: 0;
 }
 
+/* Slideshow background styles */
+.bg-slideshow {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-slideshow-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 1;
+  filter: brightness(0.6) grayscale(0.15) blur(0.5px);
+}
+.bg-slideshow-image.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+/* Main UI container */
 .container {
   max-width: 420px;
   margin: auto;
@@ -21,8 +48,10 @@ body {
   box-shadow: 0 0 32px #101a0f, 0 2px 0 #3b4726 inset;
   border: 2px solid #4a5c36;
   position: relative;
+  z-index: 3;
 }
 
+/* Headings */
 h1, h2, h3 {
   color: #d7f71b;
   font-family: 'Impact', 'Arial Black', Arial, sans-serif;
@@ -57,6 +86,7 @@ input:focus, select:focus {
   background: #29351f;
 }
 
+/* Custom select arrow */
 select {
   background: #222c1b url('data:image/svg+xml;utf8,<svg fill="lime" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 8"><path d="M6 8L0 0h12z"/></svg>') no-repeat right 10px center/12px 8px;
   appearance: none;
