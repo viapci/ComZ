@@ -1,4 +1,4 @@
-<!-- index.html - DayZ Survival TheME -->
+<!-- index.html - DayZ Survival Theme with Fading Slideshow -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="bg-slideshow"></div>
   <div class="container">
     <h1>🎧 ComZ</h1>
     <p>Find teammates and communicate on official DayZ servers.</p>
@@ -27,5 +28,34 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    // Background Slideshow Script
+    const bgImages = [
+      "https://i.imgur.com/8CjLvY9.jpg", // night-atmosphere-dayz-1gl6PkW
+      "https://i.imgur.com/gcgSGAI.jpg", // wallpaper-dayz-2WSlcXC
+      "https://i.imgur.com/xlqNZKz.jpg", // dayz-atmosphere-HTPNxrl
+      "https://i.imgur.com/WhqV3hj.jpg"  // night-forest-bgcXVto
+    ];
+
+    const bgSlideshow = document.querySelector('.bg-slideshow');
+    let current = 0;
+
+    // Preload images and create elements
+    bgImages.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'bg-slideshow-image' + (i === 0 ? ' active' : '');
+      img.alt = '';
+      bgSlideshow.appendChild(img);
+    });
+
+    const slides = document.querySelectorAll('.bg-slideshow-image');
+
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 7000); // 7 seconds per image
+  </script>
 </body>
 </html>
