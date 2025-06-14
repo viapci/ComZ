@@ -1,0 +1,65 @@
+<!-- index.html - DayZ Survival Theme with Fading Slideshow -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ComZ – Find Your DayZ Team</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-slideshow">
+    <img class="bg-slideshow-image show" src="https://i.imgur.com/8CjLvY9.jpg" alt="" />
+    <img class="bg-slideshow-image" src="https://i.imgur.com/gcgSGAI.jpg" alt="" />
+  </div>
+  <div class="container">
+    <h1>🎧 ComZ</h1>
+    <p>Find teammates and communicate on official DayZ servers.</p>
+
+    <form id="joinForm">
+      <label for="nickname">Display Name:</label>
+      <input type="text" id="nickname" name="nickname" required>
+
+      <label for="status">Status:</label>
+      <select id="status">
+        <option value="looking">Looking for Team</option>
+        <option value="in-team">In a Team</option>
+      </select>
+
+      <button type="submit">Enter ComZ</button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    // Background Slideshow Script
+    const bgImages = [
+      "https://i.imgur.com/8CjLvY9.jpg", // night-atmosphere-dayz-1gl6PkW
+      "https://i.imgur.com/gcgSGAI.jpg", // wallpaper-dayz-2WSlcXC
+      "https://i.imgur.com/xlqNZKz.jpg", // dayz-atmosphere-HTPNxrl
+      "https://i.imgur.com/WhqV3hj.jpg"  // night-forest-bgcXVto
+    ];
+    let current = 0;
+    let next = 1;
+
+    const slideshow = document.querySelector('.bg-slideshow');
+    const imgs = slideshow.querySelectorAll('.bg-slideshow-image');
+
+    imgs[0].src = bgImages[0];
+    imgs[1].src = bgImages[1];
+
+    function crossfade() {
+      imgs[0].classList.toggle('show');
+      imgs[1].classList.toggle('show');
+      setTimeout(() => {
+        current = (current + 1) % bgImages.length;
+        next = (current + 1) % bgImages.length;
+        const hidden = !imgs[0].classList.contains('show') ? imgs[0] : imgs[1];
+        hidden.src = bgImages[next];
+      }, 1700);
+    }
+
+    setInterval(crossfade, 7000);
+  </script>
+</body>
+</html>
