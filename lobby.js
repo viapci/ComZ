@@ -1,4 +1,3 @@
-// lobby.js
 import {
   auth,
   db,
@@ -17,30 +16,42 @@ import {
 let currentUserId = null;
 let userName = localStorage.getItem('comz_nickname') || "Unnamed";
 let teamId = null;
+let chatUnsub = null;
 
-// Show name
+// Show welcome
 document.getElementById("welcome").innerText = `Welcome, ${userName}`;
 
-// Handle auth state
+// Wait for auth
 auth.onAuthStateChanged(user => {
   if (user) {
     currentUserId = user.uid;
+    console.log("[AUTH] Signed in:", currentUserId);
     setupLobby();
+  } else {
+    console.error("[AUTH] Not signed in.");
   }
 });
 
-// Create a new team
+// Create team button
 document.getElementById('createTeam').addEventListener('click', async () => {
   const maxSize = parseInt(document.getElementById('teamSize').value);
+  const mapName = document.getElementById('mapName').value;
+  const serverId = document.getElementById('serverId').value.trim();
+
+  if (!serverId) {
+    alert("Please enter a Server ID.");
+    return;
+  }
+
+  console.log("[CREATE] Creating team:", { maxSize, mapName, serverId });
 
   const teamRef = await addDoc(collection(db, "teams"), {
     createdAt: serverTimestamp(),
-    maxSize: maxSize,
+    maxSize,
+    mapName,
+    serverId,
     members: [
-      {
-        uid: currentUserId,
-        name: userName
-      }
+      { uid: currentUserId, name: userName }
     ]
   });
 
@@ -48,7 +59,7 @@ document.getElementById('createTeam').addEventListener('click', async () => {
   showTeamLobby();
 });
 
-// Load open teams
+// Show open teams to join
 async function setupLobby() {
   const q = query(collection(db, "teams"));
   const snap = await getDocs(q);
@@ -61,9 +72,9 @@ async function setupLobby() {
     const members = team.members || [];
     if (members.length < team.maxSize) {
       const li = document.createElement('li');
-      li.innerText = `${members.length}/${team.maxSize} – Team`;
+      li.innerHTML = `<strong>${members.length}/${team.maxSize}</strong> - Map: ${team.mapName} - Server ID: ${team.serverId} `;
       const btn = document.createElement('button');
-      btn.innerText = "Join";
+      btn.textContent = "Join";
       btn.onclick = () => joinTeam(docSnap.id, team);
       li.appendChild(btn);
       list.appendChild(li);
@@ -71,7 +82,7 @@ async function setupLobby() {
   });
 }
 
-// Join an existing team
+// Join a team
 async function joinTeam(id, team) {
   const teamRef = doc(db, "teams", id);
   const current = await getDoc(teamRef);
@@ -88,7 +99,7 @@ async function joinTeam(id, team) {
   showTeamLobby();
 }
 
-// Display current team
+// Show team lobby UI and realtime data
 function showTeamLobby() {
   document.getElementById("teamControls").style.display = "none";
   document.getElementById("teamLobby").style.display = "block";
@@ -96,9 +107,15 @@ function showTeamLobby() {
   const info = document.getElementById("teamInfo");
   const membersList = document.getElementById("teamMembers");
 
-  const unsub = onSnapshot(doc(db, "teams", teamId), (docSnap) => {
+  onSnapshot(doc(db, "teams", teamId), (docSnap) => {
     const team = docSnap.data();
-    info.innerText = `Team Size: ${team.members.length}/${team.maxSize}`;
+
+    info.innerHTML = `
+      Team Size: ${team.members.length}/${team.maxSize} <br />
+      Map: ${team.mapName} <br />
+      Server ID: ${team.serverId}
+    `;
+
     membersList.innerHTML = '';
     team.members.forEach(m => {
       const li = document.createElement('li');
@@ -106,4 +123,37 @@ function showTeamLobby() {
       membersList.appendChild(li);
     });
   });
+
+  // Unsubscribe old chat listener if any
+  if (chatUnsub) chatUnsub();
+
+  const chatCol = collection(db, "teams", teamId, "chat");
+  chatUnsub = onSnapshot(chatCol, (chatSnap) => {
+    const chatList = document.getElementById("chatMessages");
+    chatList.innerHTML = "";
+    chatSnap.forEach(doc => {
+      const { name, message, timestamp } = doc.data();
+      const li = document.createElement("li");
+      const time = timestamp ? new Date(timestamp.seconds * 1000).toLocaleTimeString() : "";
+      li.textContent = `[${time}] ${name}: ${message}`;
+      chatList.appendChild(li);
+    });
+    chatList.scrollTop = chatList.scrollHeight;
+  });
 }
+
+// Send chat message
+document.getElementById("sendChat").addEventListener("click", async () => {
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if (!msg || !teamId) return;
+
+  const chatCol = collection(db, "teams", teamId, "chat");
+  await addDoc(chatCol, {
+    name: userName,
+    message: msg,
+    timestamp: serverTimestamp()
+  });
+
+  input.value = "";
+});
