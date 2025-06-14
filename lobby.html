@@ -2,24 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>ComZ Lobby</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>📡 ComZ Lobby</h1>
-    <p id="welcomeMessage"></p>
-    
-    <h2>👥 Survivors Online</h2>
-    <ul id="userList">
-      <!-- Populated with JS -->
-    </ul>
+    <h1>ComZ Team Lobby</h1>
+    <p id="welcome"></p>
 
-    <button onclick="goBack()">🔙 Change Name / Status</button>
+    <div id="teamControls">
+      <h2>Create a Team</h2>
+      <label>Max Team Size:</label>
+      <input type="number" id="teamSize" min="2" max="5" value="2">
+      <button id="createTeam">Create</button>
+
+      <h2>Join a Team</h2>
+      <ul id="availableTeams"></ul>
+    </div>
+
+    <div id="teamLobby" style="display:none;">
+      <h2>Team Room</h2>
+      <p id="teamInfo"></p>
+      <ul id="teamMembers"></ul>
+    </div>
   </div>
 
-  <script src="lobby.js"></script>
+  <script type="module" src="lobby.js"></script>
 </body>
 </html>
